@@ -1,0 +1,17 @@
+{
+  "cmake.generator": "Ninja",
+  "cmake.configureOnOpen": true,
+  "cmake.useCMakePresets": "never",
+
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+
+  "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--completion-style=detailed"
+  ],
+
+  "C_Cpp.intelliSenseEngine": "disabled"
+}

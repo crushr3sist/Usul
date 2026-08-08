@@ -28,5 +28,17 @@
   "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\util\\rand.cpp.obj -c H:\\AI\\NN\\usul\\src\\util\\rand.cpp",
   "file": "H:/AI/NN/usul/src/util/rand.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/util/rand.cpp.obj"
+},
+{
+  "directory": "H:/AI/NN/usul/build",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\autodiff.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\autodiff.cpp",
+  "file": "H:/AI/NN/usul/src/optim/autodiff.cpp",
+  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/optim/autodiff.cpp.obj"
+},
+{
+  "directory": "H:/AI/NN/usul/build",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\gradient_descent.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\gradient_descent.cpp",
+  "file": "H:/AI/NN/usul/src/optim/gradient_descent.cpp",
+  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/optim/gradient_descent.cpp.obj"
 }
 ]

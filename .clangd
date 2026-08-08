@@ -1,0 +1,41 @@
+# .clangd configuration file
+
+CompileFlags:
+  # Sets your default compiler standard (Adjust to c++20, c++23, etc. as needed)
+  Add: [-std=c++23, -Wall, -Wextra, -pedantic]
+  # Removes conflicting compiler arguments that break indexing
+  Remove: [-fconserve-space, -funsigned-char]
+  # Forces clangd to look at your project's compile commands directory
+  CompilationDatabase: "build"
+
+Index:
+  # Enables background indexing so symbol searching is instant
+  Background: Build
+
+Diagnostics:
+  # Enables real-time static analysis via clang-tidy
+  ClangTidy:
+    Add: [
+      bugprone-*,
+      modernize-*,
+      performance-*,
+      readability-*,
+      portability-*
+    ]
+    Remove: [
+      readability-braces-around-statements,
+      modernize-use-trailing-return-type
+    ]
+  # Suppress annoying third-party library warnings
+  Suppress: [header_guard]
+
+Hover:
+  # Shows detailed documentation and desugared types when hovering
+  ShowDetailedInformation: true
+
+InlayHints:
+  # Enables modern visual inline parameter and type hints
+  Designators: true
+  Enabled: true
+  ParameterNames: true
+  DeducedTypes: true

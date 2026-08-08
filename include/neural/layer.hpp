@@ -1,12 +1,13 @@
-#include <algorithm>
-#include <functional>
 #include <math.h>
-#include <print>
+#include <neural/neuron.hpp>
 #include <vector>
+
 using namespace std;
 
 class Layer {
+
 public:
+  vector<Neuron> neurons;
   Layer(int layer_size);
-  vector<float> forward(vector<float> input);
+  vector<Node> forward(vector<float> input);
 };

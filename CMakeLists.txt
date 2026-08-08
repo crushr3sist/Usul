@@ -13,6 +13,8 @@ add_executable(
     src/neural/layer.cpp
     src/neural/neuron.cpp
     src/util/rand.cpp
+    src/optim/autodiff.cpp
+    src/optim/gradient_descent.cpp
 )
 
 target_include_directories(

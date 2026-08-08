@@ -10,14 +10,15 @@ public:
   float gradient;
 
   // the operation string
-  std::string _op;
+  std::string _operation;
   // the references to the children
   std::vector<Node> _children;
 
   // the backwards function as nullptr right nwo
   std::function<void()> _backwards;
 
-  Node(float value, std::string op = "", std::vector<Node> children = {},
+  // the constructor MUST accept a value, the rest are optional params.
+  Node(float value, std::string operation = "", std::vector<Node> children = {},
        float gradient = 0);
 
   // the addition operator overload

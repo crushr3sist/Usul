@@ -1,10 +1,4 @@
-#include "neural/neuron.hpp"
-#include <cstddef>
-#include <math.h>
-#include <memory>
 #include <neural/layer.hpp>
-#include <util/rand.hpp>
-#include <vector>
 
 Layer::Layer(int layer_size, int neuron_size) {
 

@@ -1,14 +1,10 @@
-#include <cmath>
-#include <cstddef>
-#include <neural/layer.hpp>
-#include <optim/autodiff.hpp>
-#include <optim/gradient_descent.hpp>
+#include <usul.hpp>
 #include <print>
-#include <util/rand.hpp>
 
 using namespace std;
 
 int main() {
+
   const float LR = 0.0001;
 
   auto x = Node::create(random_float());

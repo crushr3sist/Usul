@@ -1,3 +1,4 @@
+#pragma once
 #include <math.h>
 #include <neural/neuron.hpp>
 #include <vector>
@@ -9,5 +10,5 @@ class Layer {
 public:
   vector<Neuron> neurons;
   Layer(int layer_size);
-  vector<Node> forward(vector<float> input);
+  vector<float> forward(vector<float> input);
 };

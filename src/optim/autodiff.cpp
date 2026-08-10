@@ -16,20 +16,21 @@ void autodiff(Node &loss) {
   // our comp graph container
   vector<Node> nodes;
   // our visited set
-  unordered_set<Node> visted;
+  unordered_set<Node *> visted;
 
   // a little awesome lambda function
   // to use DFS to create a flattened list of our nodes in the compute graph.
-  auto topological_sort = [&visted](this auto self, Node v) -> void {
+  auto topological_sort = [&visted, &nodes](this auto self, Node &v) -> void {
     // checking the the value being looked at is not in the visited set
-    if (!visted.contains(v)) {
+    if (!visted.contains(&v)) {
       // we insert the node into visited
-      visted.insert(v);
+      visted.insert(&v);
       // continue to iterate through thier children
-      for (const auto &child : v._children) {
+      for (auto &child : v._children) {
         // and sort thier children and so forth
         self(child);
       }
+      nodes.push_back(v);
     }
     // until we dont have any more children left
     // which is where we exit.

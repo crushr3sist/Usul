@@ -4,15 +4,8 @@
 
 using namespace std;
 
-Neuron::Neuron(size_t amount_of_inputs) {
-  // initialise weights as an empty vector
-  this->weights = {};
-  // loop the amount of the inputs given to this neuron and initialise at
-  // random.
-  for (size_t i = 0; i <= amount_of_inputs; i++) {
-    this->weights[i] = Node(random_float());
-  }
-}
+Neuron::Neuron(size_t amount_of_inputs)
+    : weights(amount_of_inputs, Node(random_float())) {}
 
 Node Neuron::process(vector<float> inputs) {
   // this is our neuron's forward pass

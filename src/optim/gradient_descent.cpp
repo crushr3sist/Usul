@@ -7,17 +7,16 @@ void gradient_descent(std::vector<Layer> &Layers, float learning_rate) {
   for (auto &layer : Layers) {
 
     for (auto &neuron : layer.neurons) {
-
-      neuron.bias.value -= learning_rate * neuron.bias.gradient;
+      neuron.bias->value -= learning_rate * neuron.bias->gradient;
 
       for (auto &weight : neuron.weights) {
-        weight.value -= learning_rate * weight.gradient;
+        weight->value -= learning_rate * weight->gradient;
       }
 
-      neuron.bias.gradient = 0.0;
+      neuron.bias->gradient = 0.0;
 
       for (auto &weight : neuron.weights) {
-        weight.gradient = 0.0;
+        weight->gradient = 0.0;
       }
     }
   }

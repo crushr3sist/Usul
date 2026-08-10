@@ -2,20 +2,22 @@
 
 #include <functional>
 #include <memory>
-#include <string>
 #include <vector>
 
 using namespace std;
 
 class Node : public enable_shared_from_this<Node> {
+private:
+  // this is private to avoid users writing shared_ptr<Node> every time a new node needs to be created
+  Node(float value,
+       vector<shared_ptr<Node>> children = {}, float gradient = 0);
+
 public:
   // the value of the value node
   float value;
   // the gradient of the value node
   float gradient;
 
-  // the operation string
-  string _operation;
   // the references to the children
   vector<shared_ptr<Node>> _children;
 
@@ -23,8 +25,8 @@ public:
   function<void()> _backwards;
 
   // the constructor MUST accept a value, the rest are optional params.
-  Node(float value, string operation = "",
-       vector<shared_ptr<Node>> children = {}, float gradient = 0);
+  static shared_ptr<Node> create(float value,
+                                 vector<shared_ptr<Node>> children = {}, float gradient = 0);
 
   // the addition operator overload
   shared_ptr<Node> operator+(Node &other);

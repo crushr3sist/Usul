@@ -2,4 +2,4 @@
 
 #include <neural/node.hpp>
 
-void autodiff(Node &loss);
+void autodiff(shared_ptr<Node> loss);

@@ -2,18 +2,52 @@
 #include <math.h>
 #include <memory>
 #include <neural/node.hpp>
+#include <utility>
 #include <vector>
 
 using namespace std;
 
-Node::Node(float value, string operation, vector<shared_ptr<Node>> children,
-           float gradient) {
+/**
+ * @brief constructor function for Node
+ *
+ * to improve the DX for creating nodes, a simple constructor is created to avoid having
+ * developers write shared_ptr<node> everytime they want to create a new node.
+ *
+ * @param[in] float value the value of the node.
+ * @param[in] vector<shared_ptr<Node>> the children of the new parent node .
+ * @param[in] float gradient the gradient of the current parent node.
+ * @return shared pointer of the current node instance.
+ *
+ * @throws nothing.
+ *
+ */
+Node::Node(float value, vector<shared_ptr<Node>> children, float gradient) {
 
   this->value = value;
-  this->_operation = operation;
-  this->_children = children;
+  this->_children = std::move(children);
   this->gradient = gradient;
   this->_backwards = []() {};
+}
+
+/**
+ * @brief creator function for Node
+ *
+ * to improve the DX for creating nodes, a simple constructor is created to avoid having
+ * developers write shared_ptr<node> everytime they want to create a new node.
+ *
+ * @param[in] float value the value of the node.
+ * @param[in] vector<shared_ptr<Node>> the children of the new parent node .
+ * @param[in] float gradient the gradient of the current parent node.
+ * @return shared pointer of the current node instance.
+ *
+ * @throws nothing.
+ *
+ */
+shared_ptr<Node> Node::create(float value, vector<shared_ptr<Node>> children, float gradient) {
+  // we're moving the operation and children, as we do not need thier copies, they can belong to this node's instance
+  shared_ptr<Node> new_node = shared_ptr<Node>(new Node(value, std::move(children), gradient));
+
+  return new_node;
 }
 
 /**
@@ -28,11 +62,11 @@ Node::Node(float value, string operation, vector<shared_ptr<Node>> children,
  *
  * @throws nothing.
  *
- * @note Performance is O(1) time complexity.
  */
 shared_ptr<Node> Node::operator+(Node &other) {
   // generate a list of children
   vector<shared_ptr<Node>> children;
+
   auto this_ptr = this->getSharedPtr();
   auto other_ptr = other.getSharedPtr();
 
@@ -40,7 +74,8 @@ shared_ptr<Node> Node::operator+(Node &other) {
   children.emplace_back(other_ptr);
 
   // generate the resultant value instance
-  shared_ptr<Node> result = make_shared<Node>(this->value + other.value, "+", children);
+  shared_ptr<Node> result = Node::create(this->value + other.value, children);
+
   auto *result_ptr = result.get();
 
   // define the node's back-prop
@@ -52,6 +87,7 @@ shared_ptr<Node> Node::operator+(Node &other) {
 
   return result;
 }
+
 /**
  * @brief multiplication operator overload for Node
  *
@@ -64,7 +100,6 @@ shared_ptr<Node> Node::operator+(Node &other) {
  *
  * @throws nothing.
  *
- * @note Performance is O(1) time complexity.
  */
 shared_ptr<Node> Node::operator*(Node &other) {
   // generate a list of children
@@ -76,7 +111,7 @@ shared_ptr<Node> Node::operator*(Node &other) {
   children.emplace_back(other_ptr);
 
   // generate the resultant value instance
-  shared_ptr<Node> result = make_shared<Node>(this->value * other.value, "*", children);
+  shared_ptr<Node> result = Node::create(this->value * other.value, children);
 
   auto *result_ptr = result.get();
 
@@ -89,6 +124,7 @@ shared_ptr<Node> Node::operator*(Node &other) {
 
   return result;
 }
+
 /**
  * @brief subtraction operator overload for Node
  *
@@ -101,7 +137,6 @@ shared_ptr<Node> Node::operator*(Node &other) {
  *
  * @throws nothing.
  *
- * @note Performance is O(1) time complexity.
  */
 shared_ptr<Node> Node::operator-(Node &other) {
   // generate a list of children
@@ -114,7 +149,7 @@ shared_ptr<Node> Node::operator-(Node &other) {
   children.emplace_back(other_ptr);
 
   // generate the resultant value instance
-  shared_ptr<Node> result = make_shared<Node>(this->value - other.value, "-", children);
+  shared_ptr<Node> result = Node::create(this->value - other.value, children);
   auto *result_ptr = result.get();
 
   // define the node's back-prop
@@ -126,6 +161,7 @@ shared_ptr<Node> Node::operator-(Node &other) {
 
   return result;
 }
+
 /**
  * @brief Rectified Linear Unit applicator for Node
  *
@@ -137,22 +173,22 @@ shared_ptr<Node> Node::operator-(Node &other) {
  *
  * @throws nothing.
  *
- * @note Performance is O(1) time complexity.
  */
 shared_ptr<Node> Node::ReLU() {
   vector<shared_ptr<Node>> children;
   auto this_ptr = this->getSharedPtr();
   children.emplace_back(this_ptr);
 
-  shared_ptr<Node> result = make_shared<Node>(fmax(0.0F, this->value), "ReLU", children);
+  shared_ptr<Node> result = Node::create(fmax(0.0F, this->value), children);
   auto *result_ptr = result.get();
 
   result->_backwards = [this_ptr, result_ptr]() {
     // if the value of our node is more than 0, we'll continue
     if (this_ptr->value > 0.0F) {
       this_ptr->gradient += float(1.0) * result_ptr->gradient;
+    } else {
+      this_ptr->gradient += 0.0F * result_ptr->gradient;
     }
-    // if its not, then 0 multiplied by anything wil be 0, so there's no point computing that
   };
 
   return result;

@@ -1,14 +1,15 @@
 #pragma once
 
 #include "node.hpp"
+#include <memory>
 #include <vector>
 
 using namespace std;
 
 class Neuron {
 public:
-  Node bias{0.0};
-  vector<Node> weights;
+  shared_ptr<Node> bias;
+  vector<shared_ptr<Node>> weights;
   Neuron(size_t amount_of_inputs);
-  Node process(vector<float> input);
+  shared_ptr<Node> process(vector<shared_ptr<Node>> input);
 };

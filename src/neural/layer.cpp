@@ -1,19 +1,27 @@
+#include "neural/neuron.hpp"
 #include <cstddef>
 #include <math.h>
+#include <memory>
 #include <neural/layer.hpp>
-#include <print>
 #include <util/rand.hpp>
 #include <vector>
 
-Layer::Layer(int layer_size) : neurons(layer_size, Neuron(layer_size)) {}
+Layer::Layer(int layer_size, int neuron_size) {
 
-vector<float> Layer::forward(vector<float> input) {
+  neurons.reserve(layer_size);
+  for (int i = 0; i < layer_size; i++) {
+    neurons.emplace_back(neuron_size); // constructs a fresh, independent Neuron each time
+  }
+}
 
-  vector<float> out;
+vector<shared_ptr<Node>> Layer::forward(vector<shared_ptr<Node>> &input) {
+
+  vector<shared_ptr<Node>> out;
+
+  out.reserve(this->neurons.size());
 
   for (Neuron neuron : this->neurons) {
-    auto k = neuron.process(input).value;
-    out.push_back(k);
+    out.emplace_back(neuron.process(input));
   }
 
   return out;

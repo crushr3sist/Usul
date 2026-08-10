@@ -9,6 +9,6 @@ class Layer {
 
 public:
   vector<Neuron> neurons;
-  Layer(int layer_size);
-  vector<float> forward(vector<float> input);
+  Layer(int layer_size, int neuron_size);
+  vector<shared_ptr<Node>> forward(vector<shared_ptr<Node>> &input);
 };

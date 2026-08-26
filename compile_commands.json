@@ -1,43 +1,43 @@
 [
 {
   "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\main.cpp.obj -c H:\\AI\\NN\\usul\\src\\main.cpp",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\main.cpp.obj -c H:\\AI\\NN\\usul\\src\\main.cpp",
   "file": "H:/AI/NN/usul/src/main.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/main.cpp.obj"
 },
 {
   "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\node.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\node.cpp",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\node.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\node.cpp",
   "file": "H:/AI/NN/usul/src/neural/node.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/neural/node.cpp.obj"
 },
 {
   "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\layer.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\layer.cpp",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\layer.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\layer.cpp",
   "file": "H:/AI/NN/usul/src/neural/layer.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/neural/layer.cpp.obj"
 },
 {
   "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\neuron.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\neuron.cpp",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\neuron.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\neuron.cpp",
   "file": "H:/AI/NN/usul/src/neural/neuron.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/neural/neuron.cpp.obj"
 },
 {
   "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\util\\rand.cpp.obj -c H:\\AI\\NN\\usul\\src\\util\\rand.cpp",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\util\\rand.cpp.obj -c H:\\AI\\NN\\usul\\src\\util\\rand.cpp",
   "file": "H:/AI/NN/usul/src/util/rand.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/util/rand.cpp.obj"
 },
 {
   "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\autodiff.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\autodiff.cpp",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\autodiff.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\autodiff.cpp",
   "file": "H:/AI/NN/usul/src/optim/autodiff.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/optim/autodiff.cpp.obj"
 },
 {
   "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\gradient_descent.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\gradient_descent.cpp",
+  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\gradient_descent.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\gradient_descent.cpp",
   "file": "H:/AI/NN/usul/src/optim/gradient_descent.cpp",
   "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/optim/gradient_descent.cpp.obj"
 }

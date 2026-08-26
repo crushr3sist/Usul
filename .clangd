@@ -15,17 +15,9 @@ Index:
 Diagnostics:
   # Enables real-time static analysis via clang-tidy
   ClangTidy:
-    Add: [
-      bugprone-*,
-      modernize-*,
-      performance-*,
-      readability-*,
-      portability-*
-    ]
-    Remove: [
-      readability-braces-around-statements,
-      modernize-use-trailing-return-type
-    ]
+    Add: [bugprone-*, modernize-*, performance-*, readability-*, portability-*]
+    Remove:
+      [readability-braces-around-statements, modernize-use-trailing-return-type]
   # Suppress annoying third-party library warnings
   Suppress: [header_guard]
 

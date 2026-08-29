@@ -5,12 +5,12 @@ project(Usul VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_PREFIX_PATH vcpkg_installed/x64-windows/)
+find_package(OpenBLAS CONFIG REQUIRED)
+# Find xtensor packages
+find_package(xtensor CONFIG REQUIRED)
+find_package(xtensor-blas CONFIG REQUIRED)
 
-# 1. Find the package
-find_package(xtensor REQUIRED)
-
-# 2. Create the target FIRST
+# Create executable
 add_executable(
     Usul
     src/main.cpp
@@ -21,12 +21,19 @@ add_executable(
     src/optim/autodiff.cpp
     src/optim/gradient_descent.cpp
 )
+target_link_libraries(Usul PRIVATE OpenBLAS::OpenBLAS)
 
-# 3. Then link and add includes to the target
-target_include_directories(Usul PUBLIC ${xtensor_INCLUDE_DIRS})
-target_link_libraries(Usul PUBLIC xtensor)
+# Link dependencies
+target_link_libraries(
+    Usul
+    PRIVATE
+        xtensor
+        xtensor-blas
+)
 
+# Project headers
 target_include_directories(
-    Usul PRIVATE
-    include
+    Usul
+    PRIVATE
+        include
 )

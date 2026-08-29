@@ -12,6 +12,8 @@
     "--clang-tidy",
     "--completion-style=detailed"
   ],
-
+  "cmake.configureSettings": {
+    "CMAKE_TOOLCHAIN_FILE": "C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  },
   "C_Cpp.intelliSenseEngine": "disabled"
 }

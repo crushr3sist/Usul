@@ -17,13 +17,18 @@ Diagnostics:
   ClangTidy:
     Add: [bugprone-*, modernize-*, performance-*, readability-*, portability-*]
     Remove:
-      [readability-braces-around-statements, modernize-use-trailing-return-type]
+      [
+        readability-braces-around-statements,
+        modernize-use-trailing-return-type,
+        readability-identifier-length,
+        readability-magic-numbers,
+      ]
   # Suppress annoying third-party library warnings
   Suppress: [header_guard]
 
 Hover:
-  # Shows detailed documentation and desugared types when hovering
-  ShowDetailedInformation: true
+  # Configures hover cards to show desugared types (AKA)
+  ShowAKA: true
 
 InlayHints:
   # Enables modern visual inline parameter and type hints

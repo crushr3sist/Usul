@@ -27,7 +27,7 @@ xt::xarray<double> ReLU_prime(xt::xarray<double> data) {
 
 int main() {
 
-  const int EPOCH = 50;
+  const int EPOCH = 1000;
 
   // this is our truth matrix
   auto Y_true = generate_random_matrix({64, 256}, -5, 5);
@@ -42,29 +42,23 @@ int main() {
   auto B = generate_random_matrix({1, 256}, -5, 5);
 
   for (int i = 0; i < EPOCH; i++) {
-
+    // *FORWARD PASS*
     // this is our forward pass
-    auto Z = xt::linalg::dot(X, W);
-
-    // addition of bias
-    Z = Z + B;
-
+    auto Z = xt::linalg::dot(X, W) + B;
     // ReLU activation
     auto A = ReLU(Z);
-
-    // lets calculate that loss now
-
+    // LOSS mse
     auto distance = A - Y_true;
-
     auto Loss = xt::mean(distance * distance);
     cout << "EPOCH: " << i << ", " << "Loss: " << Loss << '\n';
 
-    // this is the backwards pass now.
+    // *BACKWARDS*
     // we're using MSE for loss
 
-    auto N = A.size();
-    auto dL_dA = (2.0 / N) * distance;
-    auto R_prime = ReLU_prime(A);
+    auto N = A.shape()[0] * A.shape()[1];
+    auto dL_dA = 2 * (A - Y_true) / N;
+
+    auto R_prime = ReLU_prime(Z);
     auto dL_dZ = dL_dA * R_prime;
     auto dL_dB = xt::sum(dL_dZ, 0);
     auto dL_dX = xt::linalg::dot(dL_dZ, xt::transpose(W));

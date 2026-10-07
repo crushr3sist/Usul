@@ -1,5 +1,5 @@
 // neural
-#include <neural/layer.hpp>
+#include "neural/layer.hpp"
 #include <neural/neuron.hpp>
 #include <neural/node.hpp>
 // optim

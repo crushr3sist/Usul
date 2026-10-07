@@ -1,44 +1,14 @@
 [
 {
-  "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include/openblas -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\main.cpp.obj -c H:\\AI\\NN\\usul\\src\\main.cpp",
-  "file": "H:/AI/NN/usul/src/main.cpp",
-  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/main.cpp.obj"
+  "directory": "/Users/ronny/Desktop/AI/Usul/build",
+  "command": "/usr/bin/clang++ -I/Users/ronny/Desktop/AI/Usul/include -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include/openblas -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include -g -std=gnu++23 -arch arm64 -o CMakeFiles/Usul.dir/src/main.cpp.o -c /Users/ronny/Desktop/AI/Usul/src/main.cpp",
+  "file": "/Users/ronny/Desktop/AI/Usul/src/main.cpp",
+  "output": "/Users/ronny/Desktop/AI/Usul/build/CMakeFiles/Usul.dir/src/main.cpp.o"
 },
 {
-  "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include/openblas -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\node.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\node.cpp",
-  "file": "H:/AI/NN/usul/src/neural/node.cpp",
-  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/neural/node.cpp.obj"
-},
-{
-  "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include/openblas -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\layer.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\layer.cpp",
-  "file": "H:/AI/NN/usul/src/neural/layer.cpp",
-  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/neural/layer.cpp.obj"
-},
-{
-  "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include/openblas -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\neural\\neuron.cpp.obj -c H:\\AI\\NN\\usul\\src\\neural\\neuron.cpp",
-  "file": "H:/AI/NN/usul/src/neural/neuron.cpp",
-  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/neural/neuron.cpp.obj"
-},
-{
-  "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include/openblas -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\util\\rand.cpp.obj -c H:\\AI\\NN\\usul\\src\\util\\rand.cpp",
-  "file": "H:/AI/NN/usul/src/util/rand.cpp",
-  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/util/rand.cpp.obj"
-},
-{
-  "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include/openblas -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\autodiff.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\autodiff.cpp",
-  "file": "H:/AI/NN/usul/src/optim/autodiff.cpp",
-  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/optim/autodiff.cpp.obj"
-},
-{
-  "directory": "H:/AI/NN/usul/build",
-  "command": "\"C:\\Program Files\\LLVM\\bin\\clang++.exe\" -IH:/AI/NN/usul/include -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include/openblas -isystem H:/AI/NN/usul/build/vcpkg_installed/x64-windows/include -O0 -g -Xclang -gcodeview -std=gnu++23 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd -o CMakeFiles\\Usul.dir\\src\\optim\\gradient_descent.cpp.obj -c H:\\AI\\NN\\usul\\src\\optim\\gradient_descent.cpp",
-  "file": "H:/AI/NN/usul/src/optim/gradient_descent.cpp",
-  "output": "H:/AI/NN/usul/build/CMakeFiles/Usul.dir/src/optim/gradient_descent.cpp.obj"
+  "directory": "/Users/ronny/Desktop/AI/Usul/build",
+  "command": "/usr/bin/clang++ -I/Users/ronny/Desktop/AI/Usul/include -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include/openblas -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include -g -std=gnu++23 -arch arm64 -o CMakeFiles/Usul.dir/src/neural/tensor.cpp.o -c /Users/ronny/Desktop/AI/Usul/src/neural/tensor.cpp",
+  "file": "/Users/ronny/Desktop/AI/Usul/src/neural/tensor.cpp",
+  "output": "/Users/ronny/Desktop/AI/Usul/build/CMakeFiles/Usul.dir/src/neural/tensor.cpp.o"
 }
 ]

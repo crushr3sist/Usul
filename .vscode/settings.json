@@ -13,7 +13,7 @@
     "--completion-style=detailed"
   ],
   "cmake.configureSettings": {
-    "CMAKE_TOOLCHAIN_FILE": "C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
+    "CMAKE_TOOLCHAIN_FILE": "/Users/ronny/vcpkg/scripts/buildsystems/vcpkg.cmake"
   },
   "C_Cpp.intelliSenseEngine": "disabled"
 }

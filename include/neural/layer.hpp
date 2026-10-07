@@ -1,6 +1,6 @@
 #pragma once
 #include <math.h>
-#include <neural/neuron.hpp>
+#include "neural/neuron.hpp"
 #include <vector>
 
 using namespace std;

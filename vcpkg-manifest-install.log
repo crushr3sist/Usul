@@ -1,0 +1,45 @@
+Detecting compiler hash for triplet arm64-osx...
+Compiler found: /usr/bin/c++
+The following packages are already installed:
+    lapack:arm64-osx@2023-06-10#4
+  * nlohmann-json:arm64-osx@3.12.0#2
+    openblas:arm64-osx@0.3.29
+  * vcpkg-cmake:arm64-osx@2024-04-23
+  * vcpkg-cmake-config:arm64-osx@2024-05-23
+    xtensor:arm64-osx@0.27.1
+    xtensor-blas:arm64-osx@0.23.0
+  * xtl:arm64-osx@0.8.2
+lapack provides pkg-config modules:
+
+  # Implementation of LAPACK
+  lapack
+
+openblas provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(OpenBLAS CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE OpenBLAS::OpenBLAS)
+
+openblas provides pkg-config modules:
+
+  # OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version
+  openblas
+
+xtensor provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(xtensor CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE xtensor::use_TBB xtensor::optimize xtensor::use_xsimd)
+
+xtensor-blas provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(xtensor-blas CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE xtensor-blas)
+
+xtensor-blas provides pkg-config modules:
+
+  # An extension to the xtensor library, offering bindings to BLAS and LAPACK libraries.
+  xtensor-blas
+
+All requested installations completed successfully in: 56.3 us

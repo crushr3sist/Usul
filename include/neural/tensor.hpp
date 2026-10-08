@@ -30,4 +30,7 @@ public:
   Tensor operator*(Tensor other);
   // dot product
   Tensor operator^(Tensor other);
+  // subtract
+  Tensor operator-(Tensor other);
+  
 };

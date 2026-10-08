@@ -12,6 +12,7 @@ enum OP : uint8_t {
   OP_ADD = 1,      // + addition
   OP_HADAMARD = 2, // * element-wise
   OP_DOT = 3,      // ^ dot product
+  OP_SUB = 4,      // ^ dot product
 
   // activation
   OP_RELU = 10,

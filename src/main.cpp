@@ -3,6 +3,11 @@
 
 using namespace std;
 
+int MSE(auto prediction, auto target) {
+  auto distance = (prediction - target) * (prediction - target);
+  return xt::mean(distance);
+}
+
 int main() {
 
   const int EPOCH = 5000;
@@ -25,13 +30,13 @@ int main() {
   Tensor B1 = generate_random_matrix({1, 4}, -1.0, 1.0);
   Tensor W2 = generate_random_matrix({4, 1}, -1.0, 1.0);
   Tensor B2 = generate_random_matrix({1, 1}, -1.0, 1.0);
-  println("{}", (int)State::UID);
+
+  // forward pass
   auto Z1 = X ^ W1 + B1;
-  println("{}", (int)State::UID);
   auto A = ReLU(Z1);
-  println("{}", (int)State::UID);
   auto Z2 = A ^ W2 + B2;
-  println("{}", (int)State::UID);
   auto S = Sigmoid(Z2);
-  println("{}", (int)State::UID);
+
+  // loss
+  auto Loss = MSE(S, Y_true);
 }

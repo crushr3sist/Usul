@@ -1,9 +1,12 @@
+#pragma once
 // neural
-#include "neural/layer.hpp"
-#include <neural/neuron.hpp>
+#include "neural/computegraph.hpp"
 #include <neural/node.hpp>
-// optim
-#include <optim/autodiff.hpp>
-#include <optim/gradient_descent.hpp>
-// util
 #include <util/rand.hpp>
+#include <atomic>
+
+namespace State {
+inline constinit std::atomic<uint8_t> UID{0};
+inline ComputeGraph ComputeGraph;
+
+} // namespace State

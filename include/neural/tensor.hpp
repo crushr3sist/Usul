@@ -13,32 +13,26 @@ using namespace std;
 // the frontend is what the programmers interact with
 // the backend is how usul's ecosystem processes the DAG
 
-class Tensor : public enable_shared_from_this<Tensor> {
+class Tensor {
 
 public:
-  Tensor(xt::xarray<double> data, vector<shared_ptr<Tensor>> children = {}, xt::xarray<double> gradients = {});
+  Tensor(xt::xarray<double> data,
+         vector<Tensor> children = {},
+         xt::xarray<double> gradients = {});
   xt::xarray<double> data;
   xt::xarray<double> gradients;
 
-  
-
-  vector<shared_ptr<Tensor>> children;
+  vector<Tensor> children;
   function<void()> backwards;
 
-  static shared_ptr<Tensor> create(xt::xarray<double> data, vector<shared_ptr<Tensor>> children = {}, xt::xarray<double> gradients = {});
-
   // addition
-  shared_ptr<Tensor> operator+(Tensor &other);
+  Tensor operator+(Tensor other);
   // element wise
-  shared_ptr<Tensor> operator*(Tensor &other);
+  Tensor operator*(Tensor &other);
   // dot product
-  shared_ptr<Tensor> operator^(Tensor &other);
+  Tensor operator^(Tensor &other);
   // simple relu
-  shared_ptr<Tensor> ReLU();
+  Tensor ReLU();
   // simple sigmoid
-  shared_ptr<Tensor> Sigmoid();
-
-  shared_ptr<Tensor> getSharedPtr() {
-    return shared_from_this();
-  }
+  Tensor Sigmoid();
 };

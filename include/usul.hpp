@@ -1,8 +1,9 @@
 #pragma once
 // neural
-#include "neural/computegraph.hpp"
+#include <neural/computegraph.hpp>
 #include <neural/node.hpp>
-#include <util/rand.hpp>
+#include <neural/tensor.hpp>
+#include <math/activation.hpp>
 #include <atomic>
 
 namespace State {

@@ -19,6 +19,7 @@ add_executable(
     src/neural/tensor.cpp
     src/neural/node.cpp
     src/neural/computegraph.cpp
+    src/math/activation.cpp
 )
 
 target_link_libraries(Usul PRIVATE OpenBLAS::OpenBLAS)

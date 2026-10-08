@@ -12,6 +12,13 @@ enum OP : uint8_t {
   OP_ADD = 1,      // + addition
   OP_HADAMARD = 2, // * element-wise
   OP_DOT = 3,      // ^ dot product
+
+  // activation
+  OP_RELU = 10,
+  OP_RELU_P = 11,
+  OP_SIGMOID = 12,
+  OP_SIGMOID_P = 13,
+
 };
 class Node {
   // this is what is going to wrap our tensor.

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 #include <xtensor/core/xmath.hpp>
 #include <xtensor/containers/xarray.hpp>
@@ -28,11 +27,7 @@ public:
   // addition
   Tensor operator+(Tensor other);
   // element wise
-  Tensor operator*(Tensor &other);
+  Tensor operator*(Tensor other);
   // dot product
-  Tensor operator^(Tensor &other);
-  // simple relu
-  Tensor ReLU();
-  // simple sigmoid
-  Tensor Sigmoid();
+  Tensor operator^(Tensor other);
 };

@@ -40,7 +40,7 @@ Tensor Tensor::operator+(Tensor other) {
   return result;
 }
 
-Tensor Tensor::operator*(Tensor &other) {
+Tensor Tensor::operator*(Tensor other) {
 
   Tensor result(this->data * other.data, children);
   auto *this_ptr = this;
@@ -51,10 +51,15 @@ Tensor Tensor::operator*(Tensor &other) {
     this_ptr->gradients = result_ptr->gradients * other_ptr->gradients;
     other_ptr->gradients = result_ptr->gradients * this_ptr->gradients;
   };
+  // once everything is done, we need to make a node.
+  vector<Tensor *> t = {this_ptr, other_ptr};
+  Node n(OP::OP_ADD, false, result_ptr, t);
+  // then we feed that node into our compute graph that stores it.
+  State::ComputeGraph.publish(n);
   return result;
 }
 
-Tensor Tensor::operator^(Tensor &other) {
+Tensor Tensor::operator^(Tensor other) {
 
   Tensor result(xt::linalg::dot(this->data, other.data), children);
   auto *this_ptr = this;
@@ -65,5 +70,12 @@ Tensor Tensor::operator^(Tensor &other) {
     this_ptr->gradients = xt::linalg::dot(result_ptr->gradients, xt::transpose(other_ptr->gradients));
     other_ptr->gradients = xt::linalg::dot(xt::transpose(this_ptr->gradients), result_ptr->gradients);
   };
+
+  // once everything is done, we need to make a node.
+  vector<Tensor *> t = {this_ptr, other_ptr};
+  Node n(OP::OP_ADD, false, result_ptr, t);
+  // then we feed that node into our compute graph that stores it.
+  State::ComputeGraph.publish(n);
+
   return result;
 }

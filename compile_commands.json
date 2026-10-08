@@ -22,5 +22,11 @@
   "command": "/usr/bin/clang++ -I/Users/ronny/Desktop/AI/Usul/include -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include/openblas -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include -g -std=gnu++23 -arch arm64 -o CMakeFiles/Usul.dir/src/neural/computegraph.cpp.o -c /Users/ronny/Desktop/AI/Usul/src/neural/computegraph.cpp",
   "file": "/Users/ronny/Desktop/AI/Usul/src/neural/computegraph.cpp",
   "output": "/Users/ronny/Desktop/AI/Usul/build/CMakeFiles/Usul.dir/src/neural/computegraph.cpp.o"
+},
+{
+  "directory": "/Users/ronny/Desktop/AI/Usul/build",
+  "command": "/usr/bin/clang++ -I/Users/ronny/Desktop/AI/Usul/include -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include/openblas -isystem /Users/ronny/Desktop/AI/Usul/build/vcpkg_installed/arm64-osx/include -g -std=gnu++23 -arch arm64 -o CMakeFiles/Usul.dir/src/math/activation.cpp.o -c /Users/ronny/Desktop/AI/Usul/src/math/activation.cpp",
+  "file": "/Users/ronny/Desktop/AI/Usul/src/math/activation.cpp",
+  "output": "/Users/ronny/Desktop/AI/Usul/build/CMakeFiles/Usul.dir/src/math/activation.cpp.o"
 }
 ]

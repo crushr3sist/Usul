@@ -5,6 +5,7 @@
 #include <neural/tensor.hpp>
 #include <math/activation.hpp>
 #include <atomic>
+#include <xtensor/io/xio.hpp>
 
 namespace State {
 inline constinit std::atomic<uint8_t> UID{0};

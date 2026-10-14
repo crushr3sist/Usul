@@ -1,5 +1,6 @@
-#include <print>
+#include "neural/tensor.hpp"
 #include <usul.hpp>
+#include <typeinfo>
 
 using namespace std;
 
@@ -10,7 +11,19 @@ int main() {
 
   cout << x << "\n";
 
-  auto y = x * 2.0;
+  auto lhs_plus = 1.0 + x;
+  auto rhs_plus = x + 1.0;
+  auto t2t_plus = x + x;
 
-  cout << y << "\n";
+  println("{}", typeid(lhs_plus) == typeid(Tensor));
+  println("{}", typeid(rhs_plus) == typeid(Tensor));
+  println("{}", typeid(t2t_plus) == typeid(Tensor));
+
+  auto lhs_mul = 1.0 + x;
+  auto rhs_mul = x + 1.0;
+  auto t2t_mul = x + x;
+
+  println("{}", typeid(lhs_mul) == typeid(Tensor));
+  println("{}", typeid(rhs_mul) == typeid(Tensor));
+  println("{}", typeid(t2t_mul) == typeid(Tensor));
 }

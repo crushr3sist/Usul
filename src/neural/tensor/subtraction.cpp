@@ -2,7 +2,11 @@
 #include "usul.hpp"
 #include <neural/tensor.hpp>
 
+// tensor + tensor
 Tensor Tensor::operator-(Tensor other) {
+
+  vector<Tensor> children = {*this, other};
+
   Tensor result(this->data - other.data, children);
 
   auto *this_ptr = this;
@@ -10,8 +14,8 @@ Tensor Tensor::operator-(Tensor other) {
   auto *result_ptr = &result;
 
   result.backwards = [this_ptr, other_ptr, result_ptr]() {
-    this_ptr->gradients = result_ptr->gradients;
-    other_ptr->gradients = result_ptr->gradients;
+    this_ptr->gradients += result_ptr->gradients;
+    other_ptr->gradients -= result_ptr->gradients;
   };
 
   // once everything is done, we need to make a node.
@@ -22,38 +26,40 @@ Tensor Tensor::operator-(Tensor other) {
 
   return result;
 }
+
+// tensor + 1.0
 Tensor Tensor::operator-(double other) {
-  Tensor result(this->data - other.data, children);
+  Tensor result(this->data - other, {});
 
   auto *this_ptr = this;
-  auto *other_ptr = &other;
   auto *result_ptr = &result;
 
-  result.backwards = [this_ptr, other_ptr, result_ptr]() {
-    this_ptr->gradients = result_ptr->gradients;
-    other_ptr->gradients = result_ptr->gradients;
+  result.backwards = [this_ptr, result_ptr]() {
+    this_ptr->gradients += result_ptr->gradients;
   };
-
   // once everything is done, we need to make a node.
-  vector<Tensor *> t = {this_ptr, other_ptr};
+  vector<Tensor *> t = {this_ptr};
+
   Node n(OP::OP_SUB, false, result_ptr, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
 
   return result;
 }
+
+// 1.0 + tensor
 Tensor operator-(double lhs, Tensor &rhs) {
   Tensor result(lhs - rhs.data, {});
 
   auto *result_ptr = &result;
-  auto *lhs_ptr = &lhs;
+  auto *rhs_ptr = &rhs;
 
-  result.backwards = [result_ptr]() {
-    result->gradients = result_ptr->gradients;
+  result.backwards = [rhs_ptr, result_ptr]() {
+    rhs_ptr->gradients += -result_ptr->gradients;
   };
 
   // once everything is done, we need to make a node.
-  vector<Tensor *> t = {this_ptr, other_ptr};
+  vector<Tensor *> t = {rhs_ptr};
   Node n(OP::OP_SUB, false, result_ptr, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);

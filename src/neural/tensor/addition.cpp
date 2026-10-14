@@ -13,8 +13,8 @@ Tensor Tensor::operator+(Tensor other) {
   auto *this_ptr = this;
   auto *other_ptr = &other;
   auto *result_ptr = &result;
-
   result.backwards = [this_ptr, other_ptr, result_ptr]() {
+
     this_ptr->gradients += result_ptr->gradients;
     other_ptr->gradients += result_ptr->gradients;
   };
@@ -61,8 +61,8 @@ Tensor operator+(double lhs, Tensor &rhs) {
   // we need to get rid of the children
   // i know that sounds like a wish but the new result shouldnt inherit a "temp" change to the compute graph.
   Tensor result(lhs + rhs.data, {});
-  // make a pointer to the right hand side
   // the left handside is already a pointer
+  // make a pointer to the right hand side
 
   Tensor *rhs_ptr = &rhs;
   // for the result, its just simple, we take the tensor and assin it the upstream gradient

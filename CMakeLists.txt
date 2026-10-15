@@ -22,7 +22,7 @@ add_executable(
     # src/math/activation.cpp
     src/neural/tensor/addition.cpp
     src/neural/tensor/elementwise.cpp
-    # src/neural/tensor/subtraction.cpp
+    src/neural/tensor/subtraction.cpp
 )
 
 target_link_libraries(Usul PRIVATE OpenBLAS::OpenBLAS)

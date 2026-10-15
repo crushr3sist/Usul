@@ -97,6 +97,6 @@ private:
   // *
   friend Tensor operator*(double, Tensor &);
   // dot and negate
-  friend Tensor operator^(Tensor &, Tensor &);
-  friend Tensor operator-(Tensor &);
+  // friend Tensor operator^(Tensor &, Tensor &);
+  // friend Tensor operator-(Tensor &);
 };

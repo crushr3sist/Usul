@@ -39,8 +39,16 @@ Tensor Tensor::operator^(Tensor other) {
   return result;
 }
 
-// Tensor Tensor::operator-() {}
-// Tensor Tensor::exponential() {}
+Tensor Tensor::operator-() {
+  this->data = -this->data;
+  return *this;
+};
+
+Tensor Tensor::exponential() {
+  this->data = xt::exp(this->data);
+  return *this;
+}
+
 // Tensor Tensor::max(double value) {}
 // Tensor Tensor::mean() {}
 // Tensor Tensor::reshape(vector<int> &shape) {}

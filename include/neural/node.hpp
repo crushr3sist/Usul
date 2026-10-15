@@ -31,7 +31,8 @@ public:
       uint8_t op,
       bool broadcasted,
       Tensor *result_tensor,
-      vector<Tensor *> parents);
+      vector<Tensor *> parents
+    );
 
   uint8_t UID;
   uint8_t op;

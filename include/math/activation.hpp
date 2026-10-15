@@ -5,10 +5,9 @@
 #include <xtensor/views/xview.hpp>
 #include <xtensor/generators/xrandom.hpp>
 #include <xtensor-blas/xlinalg.hpp>
-typedef Tensor T;
 
-T generate_random_matrix(const std::vector<int> &shape, double low, double high);
-T ReLU(T data);
-T ReLU_prime(T data);
-T Sigmoid(T data);
-T Sigmoid_prime(T data);
+Tensor generate_random_matrix(const std::vector<int> &shape, double low, double high);
+Tensor ReLU(Tensor data);
+Tensor ReLU_prime(Tensor data);
+Tensor Sigmoid(Tensor data);
+Tensor Sigmoid_prime(Tensor data);

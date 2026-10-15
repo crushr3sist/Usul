@@ -1,0 +1,5 @@
+just saying, this is here, because of the compute graph.
+
+in deep learning, an easy method to articulate backwards propagation of error, is to know the history of the arithmatics. if we know that x + x is what y is, then we know what caused y to be what it was. If we can track what caused the weights to be what they are, then its easy to get an overall picture. The reason the operators have been overloaded again ontop of xtensor is because of our compute graph, every single maths or modifier that have been applied to the weights of our model, we need to track every one of those changes so that we can derive it respect to its upstream child.
+
+Therefore, in order to write the activation functions, we need to have contorl over our math so we know what operation was done even in those functions, every arithmatic needs to be tracked. therefore in order ot provide complex functinos, instead of just simple arithmatic relationship between scalars and tensors, tensors and tensors, we need to store all of the effects.

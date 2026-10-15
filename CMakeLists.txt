@@ -19,7 +19,7 @@ add_executable(
     src/neural/tensor.cpp
     src/neural/node.cpp
     src/neural/computegraph.cpp
-    # src/math/activation.cpp
+    src/math/activation.cpp
     src/neural/tensor/addition.cpp
     src/neural/tensor/elementwise.cpp
     src/neural/tensor/subtraction.cpp

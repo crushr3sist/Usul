@@ -78,9 +78,16 @@ public:
   Tensor max(double value);
   Tensor mean();
   Tensor reshape(std::vector<int> &shape);
+
   shapeView shape() const {
     return shapeView{data.shape()};
   }
+
+  // activation functions
+  Tensor ReLU();
+  Tensor ReLU_prime();
+  Tensor Sigmoid();
+  Tensor Sigmoid_prime();
 
 private:
   xt::xarray<double> data;
@@ -97,6 +104,4 @@ private:
   // *
   friend Tensor operator*(double, Tensor &);
   // dot and negate
-  // friend Tensor operator^(Tensor &, Tensor &);
-  // friend Tensor operator-(Tensor &);
 };

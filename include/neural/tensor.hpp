@@ -12,7 +12,7 @@ struct Heart {
   // we need to move the data here.
   // these can be turned into a struct which can then be made into a shared pointer mutable std::shared_ptr<xt::xarray<double>> data;
   mutable xt::xarray<double> data;
-  mutable xt::xarray<double> gradients;
+  mutable xt::xarray<double> gradients = xt::zeros_like(data);
   std::function<void()> backwards;
   std::vector<std::shared_ptr<Heart>> children;
 };
@@ -101,7 +101,11 @@ public:
   Tensor exponential();
   Tensor max(double value);
   Tensor mean();
+  Tensor transpose();
   Tensor reshape(std::vector<int> shape);
+
+  Tensor sum();
+  Tensor sum(std::vector<std::size_t> axes);
 
   [[nodiscard]] shapeView shape() const {
     return shapeView{heart->data.shape()};

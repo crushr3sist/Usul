@@ -6,6 +6,7 @@
 #include <xtensor/containers/xarray.hpp>
 #include <xtensor/core/xtensor_forward.hpp>
 #include <memory>
+#include <xtensor/misc/xmanipulation.hpp>
 
 Tensor::Tensor(xt::xarray<double> data) {
   // generate the data struct and then install the data into it.
@@ -15,25 +16,34 @@ Tensor::Tensor(xt::xarray<double> data) {
 }
 
 Tensor Tensor::operator-() {
-  this->heart->data = -this->heart->data;
-  return *this;
+  return Tensor(-this->heart->data);
 }
 
 Tensor Tensor::exponential() {
-  this->heart->data = xt::exp(this->heart->data);
-  return *this;
+  return Tensor(xt::exp(this->heart->data));
 }
 
 Tensor Tensor::max(double value) {
-  this->heart->data = xt::maximum(this->heart->data, value);
-  return *this;
+  return Tensor(xt::maximum(this->heart->data, value));
 }
 
 Tensor Tensor::mean() {
-  this->heart->data = xt::mean(this->heart->data);
-  return *this;
+  return Tensor(xt::mean(this->heart->data));
 }
 
+Tensor Tensor::sum() {
+  return Tensor(xt::sum(this->heart->data));
+}
+
+Tensor Tensor::sum(std::vector<std::size_t> axes) {
+  return Tensor(xt::sum(this->heart->data, axes, xt::keep_dims));
+}
+
+Tensor Tensor::transpose() {
+  return Tensor(xt::transpose(this->heart->data));
+}
+
+// reshape CAN stay in-place if you want Y_true.reshape({4, 1}) to work as written:
 Tensor Tensor::reshape(std::vector<int> shape) {
   this->heart->data.reshape(shape);
   return *this;

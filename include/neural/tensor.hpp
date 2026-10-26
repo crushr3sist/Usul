@@ -6,6 +6,7 @@
 #include <xtensor/containers/xadapt.hpp>
 #include <xtensor/io/xio.hpp>
 #include <memory>
+#include <xtensor/utils/xutils.hpp>
 
 struct Heart {
   // we need to move the data here.
@@ -19,11 +20,24 @@ struct Heart {
 class Tensor {
 
 public:
+  // these many constructors, just so it doesnt have a sook when its not put into curly brace parameters.
   Tensor(xt::xarray<double> data);
+
+  Tensor(xt::nested_initializer_list_t<double, 1> data)
+      : Tensor(xt::xarray<double>(data)) {}
+
+  Tensor(xt::nested_initializer_list_t<double, 2> data)
+      : Tensor(xt::xarray<double>(data)) {}
+
+  Tensor(xt::nested_initializer_list_t<double, 3> data)
+      : Tensor(xt::xarray<double>(data)) {}
+
+  Tensor(xt::nested_initializer_list_t<double, 4> data)
+      : Tensor(xt::xarray<double>(data)) {}
 
   // our __str__ method overload.
   friend std::ostream &operator<<(std::ostream &os, const Tensor &t) {
-    os << "Tensor(" << t.heart << ", " << "shape=" << t.shape() << ")\n";
+    os << "Tensor(" << t.heart->data << ", " << "shape=" << t.shape() << ")\n";
     return os;
   }
 
@@ -59,35 +73,35 @@ public:
   };
 
   // addition
-  Tensor operator+(Tensor &other);
+  Tensor operator+(const Tensor &other) const;
   // addition scalar rhs
-  Tensor operator+(double other);
+  Tensor operator+(double other) const;
   // addition scalar lhs
-  friend Tensor operator+(double lhs, Tensor &rhs);
+  friend Tensor operator+(double lhs, const Tensor &rhs);
 
   // element wise
-  Tensor operator*(Tensor &other);
+  Tensor operator*(const Tensor &other) const;
   // element wise scalar rhs
-  Tensor operator*(double other);
+  Tensor operator*(double other) const;
   // element wise scalar lhs
-  friend Tensor operator*(double lhs, Tensor &rhs);
+  friend Tensor operator*(double lhs, const Tensor &rhs);
 
   // dot product
-  Tensor operator^(Tensor &other);
+  Tensor operator%(const Tensor &other) const;
 
   // subtract
-  Tensor operator-(Tensor &other);
+  Tensor operator-(const Tensor &other) const;
   // subtract scalar rhs
-  Tensor operator-(double other);
+  Tensor operator-(double other) const;
   // subtract scalar lhs
-  friend Tensor operator-(double lhs, Tensor &rhs);
+  friend Tensor operator-(double lhs, const Tensor &rhs);
 
   // auxilary operations
   Tensor operator-();
   Tensor exponential();
   Tensor max(double value);
   Tensor mean();
-  Tensor reshape(std::vector<int> &shape);
+  Tensor reshape(std::vector<int> shape);
 
   [[nodiscard]] shapeView shape() const {
     return shapeView{heart->data.shape()};
@@ -102,13 +116,4 @@ public:
 private:
   // these can be turned into a struct which can then be made into a shared pointer
   mutable std::shared_ptr<Heart> heart;
-
-  // friends :)
-  // +
-  friend Tensor operator+(double, Tensor &);
-  // -
-  friend Tensor operator-(double, Tensor &);
-  // *
-  friend Tensor operator*(double, Tensor &);
-  // dot and negate
 };

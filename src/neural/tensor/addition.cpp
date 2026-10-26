@@ -7,7 +7,8 @@
 
 /// ADDITION
 // tensor to tensor
-Tensor Tensor::operator+(Tensor &other) {
+
+Tensor Tensor::operator+(const Tensor &other) const {
   // copy our this pointer
   auto this_ptr = this->heart;
   // copy our other pointer
@@ -19,9 +20,14 @@ Tensor Tensor::operator+(Tensor &other) {
   result.heart->children = {this_ptr, other_ptr};
   // result can be chucked in because it is a conduit, it is a hollow utterance of the data that is hidden behind out heart struct shared_ptr
 
-  result.heart->backwards = [this_ptr, other_ptr, result]() {
-    this_ptr->gradients += result.heart->gradients;
-    other_ptr->gradients += result.heart->gradients;
+  std::weak_ptr<Heart> result_ptr = result.heart;
+
+  result.heart->backwards = [this_ptr, other_ptr, result_ptr]() {
+    if (auto result_heart = result_ptr.lock()) {
+
+      this_ptr->gradients += result_heart->gradients;
+      other_ptr->gradients += result_heart->gradients;
+    }
   };
 
   Node n(OP::OP_ADD, false, result, result.heart->children);
@@ -32,13 +38,17 @@ Tensor Tensor::operator+(Tensor &other) {
 
 // tensor + 1.0
 /// correct.
-Tensor Tensor::operator+(double other) {
+Tensor Tensor::operator+(double other) const {
   auto this_ptr = this->heart;
 
   Tensor result(this->heart->data + other);
 
-  result.heart->backwards = [this_ptr, result]() {
-    this_ptr->gradients += result.heart->gradients;
+  std::weak_ptr<Heart> result_ptr = result.heart;
+
+  result.heart->backwards = [this_ptr, result_ptr]() {
+    if (auto result_heart = result_ptr.lock()) {
+      this_ptr->gradients += result_heart->gradients;
+    }
   };
   vector<shared_ptr<Heart>> t = {this_ptr};
   Node n(OP::OP_ADD, false, result, t);
@@ -47,13 +57,15 @@ Tensor Tensor::operator+(double other) {
 }
 
 // 1.0 + tensor
-Tensor operator+(double lhs, Tensor &rhs) {
+Tensor operator+(double lhs, const Tensor &rhs) {
   auto rhs_ptr = rhs.heart;
   Tensor result(lhs + rhs.heart->data);
+  std::weak_ptr<Heart> result_ptr = result.heart;
 
-  result.heart->backwards = [rhs_ptr, result]() {
-    rhs_ptr->gradients += result.heart->gradients;
-  };
+  result.heart->backwards = [rhs_ptr, result_ptr]() {
+    if (auto result_heart = result_ptr.lock()) {
+      rhs_ptr->gradients += result_heart->gradients;
+  } };
 
   vector<shared_ptr<Heart>> t = {rhs_ptr};
 

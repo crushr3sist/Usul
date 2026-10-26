@@ -30,17 +30,16 @@ public:
   Node(
       uint8_t op,
       bool broadcasted,
-      Tensor *result_tensor,
-      vector<Tensor *> parents
-    );
+      Tensor result_tensor,
+      std::vector<std::shared_ptr<Heart>> parents);
 
   uint8_t UID;
   uint8_t op;
 
 private:
   bool broadcasted;
-  Tensor *tensor_ptr;
-  vector<Tensor *> parents;
+  Tensor resultant_tensor;
+  std::vector<std::shared_ptr<Heart>> parents;
 
   static uint8_t increment_uid();
 };

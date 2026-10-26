@@ -2,30 +2,33 @@
 #include "usul.hpp"
 #include <neural/tensor.hpp>
 
+// !NOTE - we're speeding up the functional definition of our arithmatics.
+// and we're also figuring out the smart ptrs
+
 /// ADDITION
 // tensor to tensor
-Tensor Tensor::operator+(Tensor other) {
+Tensor Tensor::operator+(Tensor &other) {
+  // copy our this pointer
+  auto this_ptr = this->heart;
+  // copy our other pointer
+  auto other_ptr = other.heart;
+  // generating the tensor using minimal data
+  Tensor result(this->heart->data + other.heart->data);
 
-  vector<Tensor> children = {*this, other};
+  // setting the children in
+  result.heart->children = {this_ptr, other_ptr};
+  // result can be chucked in because it is a conduit, it is a hollow utterance of the data that is hidden behind out heart struct shared_ptr
 
-  Tensor result(this->data + other.data, children);
-
-  auto *this_ptr = this;
-  auto *other_ptr = &other;
-  auto *result_ptr = &result;
-  result.backwards = [this_ptr, other_ptr, result_ptr]() {
-
-    this_ptr->gradients += result_ptr->gradients;
-    other_ptr->gradients += result_ptr->gradients;
+  result.heart->backwards = [this_ptr, other_ptr, result]() {
+    this_ptr->gradients += result.heart->gradients;
+    other_ptr->gradients += result.heart->gradients;
   };
 
-  // once everything is done, we need to make a node.
-  vector<Tensor *> t = {this_ptr, other_ptr};
-  Node n(OP::OP_ADD, false, result_ptr, t);
-  // then we feed that node into our compute graph that stores it.
-  State::ComputeGraph.publish(n);
+  Node n(OP::OP_ADD, false, result, result.heart->children);
+  // // then we feed that node into our compute graph that stores it.
+  // State::ComputeGraph.publish(n);
 
-  return result;
+  // return result;
 }
 
 // tensor + 1.0
@@ -39,15 +42,15 @@ Tensor Tensor::operator+(double other) {
   // then we make a pointer to our tensor
   // and then a pointer to the resultant tensor
 
-  auto *this_ptr = this;
-  auto *result_ptr = &result;
+  shared_ptr<Tensor> this_safe = make_shared<Tensor>(*this);
+  shared_ptr<Tensor> result_ptr = make_shared<Tensor>(result);
 
-  result.backwards = [this_ptr, result_ptr]() {
-    this_ptr->gradients += result_ptr->gradients;
+  result.backwards = [this_safe, result_ptr]() {
+    this_safe->gradients += result_ptr->gradients;
   };
 
-  // once everything is done, we need to make a node.
-  vector<Tensor *> t = {this_ptr};
+  // NOTE - initing like this copies the tensor
+  vector<shared_ptr<Tensor>> t = {this_safe};
   Node n(OP::OP_ADD, false, result_ptr, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
@@ -57,27 +60,19 @@ Tensor Tensor::operator+(double other) {
 
 // 1.0 + tensor
 Tensor operator+(double lhs, Tensor &rhs) {
-  // get the result
-  // we need to get rid of the children
-  // i know that sounds like a wish but the new result shouldnt inherit a "temp" change to the compute graph.
+
   Tensor result(lhs + rhs.data, {});
-  // the left handside is already a pointer
-  // make a pointer to the right hand side
 
-  Tensor *rhs_ptr = &rhs;
-  // for the result, its just simple, we take the tensor and assin it the upstream gradient
-  // but using accum.
-  result.backwards = [rhs_ptr, &result]() {
-    rhs_ptr->gradients += result.gradients;
+  shared_ptr<Tensor> rhs_ptr = make_shared<Tensor>(rhs);
+  shared_ptr<Tensor> result_ptr = make_shared<Tensor>(result);
+
+  result.backwards = [rhs_ptr, result_ptr]() {
+    rhs_ptr->gradients += result_ptr->gradients;
   };
-  // then we just create a pointer array of tensors
 
-  vector<Tensor *> t = {rhs_ptr};
-  // assign it to the nodes
+  vector<shared_ptr<Tensor>> t = {rhs_ptr};
 
-  Node n(OP::OP_ADD, false, &result, t);
-
-  // and publish it into the compute graph.
+  Node n(OP::OP_ADD, false, result_ptr, t);
 
   State::ComputeGraph.publish(n);
   return result;

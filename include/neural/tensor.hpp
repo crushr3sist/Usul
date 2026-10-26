@@ -5,18 +5,28 @@
 #include <xtensor/containers/xarray.hpp>
 #include <xtensor/containers/xadapt.hpp>
 #include <xtensor/io/xio.hpp>
+#include <memory>
+
+struct Heart {
+  // we need to move the data here.
+  // these can be turned into a struct which can then be made into a shared pointer mutable std::shared_ptr<xt::xarray<double>> data;
+  mutable xt::xarray<double> data;
+  mutable xt::xarray<double> gradients;
+  std::function<void()> backwards;
+  std::vector<std::shared_ptr<Heart>> children;
+};
+
 class Tensor {
 
 public:
-  Tensor(xt::xarray<double> data,
-         std::vector<Tensor> children = {},
-         xt::xarray<double> gradients = {});
+  Tensor(xt::xarray<double> data);
 
   // our __str__ method overload.
   friend std::ostream &operator<<(std::ostream &os, const Tensor &t) {
-    os << "Tensor(" << t.data << ", " << "shape=" << t.shape() << ")\n";
+    os << "Tensor(" << t.heart << ", " << "shape=" << t.shape() << ")\n";
     return os;
   }
+
   // define the type xtensor uses for its shape vectors
   using shapeType = typename xt::xarray<double>::shape_type;
 
@@ -49,24 +59,24 @@ public:
   };
 
   // addition
-  Tensor operator+(Tensor other);
+  Tensor operator+(Tensor &other);
   // addition scalar rhs
   Tensor operator+(double other);
   // addition scalar lhs
   friend Tensor operator+(double lhs, Tensor &rhs);
 
   // element wise
-  Tensor operator*(Tensor other);
+  Tensor operator*(Tensor &other);
   // element wise scalar rhs
   Tensor operator*(double other);
   // element wise scalar lhs
   friend Tensor operator*(double lhs, Tensor &rhs);
 
   // dot product
-  Tensor operator^(Tensor other);
+  Tensor operator^(Tensor &other);
 
   // subtract
-  Tensor operator-(Tensor other);
+  Tensor operator-(Tensor &other);
   // subtract scalar rhs
   Tensor operator-(double other);
   // subtract scalar lhs
@@ -79,8 +89,8 @@ public:
   Tensor mean();
   Tensor reshape(std::vector<int> &shape);
 
-  shapeView shape() const {
-    return shapeView{data.shape()};
+  [[nodiscard]] shapeView shape() const {
+    return shapeView{heart->data.shape()};
   }
 
   // activation functions
@@ -90,11 +100,8 @@ public:
   Tensor Sigmoid_prime();
 
 private:
-  xt::xarray<double> data;
-  xt::xarray<double> gradients;
-
-  std::vector<Tensor> children;
-  std::function<void()> backwards;
+  // these can be turned into a struct which can then be made into a shared pointer
+  mutable std::shared_ptr<Heart> heart;
 
   // friends :)
   // +

@@ -3,9 +3,13 @@
 #include <neural/tensor.hpp>
 
 // tensor + tensor
-Tensor Tensor::operator-(Tensor other) {
+Tensor Tensor::operator-(Tensor &other) {
 
-  vector<Tensor> children = {*this, other};
+  shared_ptr<Tensor> this_safe = make_shared<Tensor>(*this);
+  shared_ptr<Tensor> other_safe = make_shared<Tensor>(other);
+  vector<shared_ptr<Tensor>> children;
+  children.emplace_back(this_safe);
+  children.emplace_back(other_safe);
 
   Tensor result(this->data - other.data, children);
 
@@ -18,7 +22,7 @@ Tensor Tensor::operator-(Tensor other) {
     other_ptr->gradients -= result_ptr->gradients;
   };
 
-  // once everything is done, we need to make a node.
+  // NOTE - initing like this copies the tensor
   vector<Tensor *> t = {this_ptr, other_ptr};
   Node n(OP::OP_SUB, false, result_ptr, t);
   // then we feed that node into our compute graph that stores it.

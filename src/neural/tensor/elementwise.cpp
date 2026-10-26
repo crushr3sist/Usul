@@ -4,8 +4,13 @@
 
 /// ELEMENT-WISE MULTIPLICATION
 // tensor to tensor
-Tensor Tensor::operator*(Tensor other) {
-  vector<Tensor> children = {*this, other};
+Tensor Tensor::operator*(Tensor &other) {
+  
+  shared_ptr<Tensor> this_safe = make_shared<Tensor>(*this);
+  shared_ptr<Tensor> other_safe = make_shared<Tensor>(other);
+  vector<shared_ptr<Tensor>> children;
+  children.emplace_back(this_safe);
+  children.emplace_back(other_safe);
 
   Tensor result(this->data * other.data, children);
 
@@ -17,7 +22,8 @@ Tensor Tensor::operator*(Tensor other) {
     this_ptr->gradients += result_ptr->gradients * other_ptr->data;
     other_ptr->gradients += result_ptr->gradients * this_ptr->data;
   };
-  // once everything is done, we need to make a node.
+
+  // NOTE - initing like this copies the tensor
   vector<Tensor *> t = {this_ptr, other_ptr};
   Node n(OP::OP_HADAMARD, false, result_ptr, t);
   // then we feed that node into our compute graph that stores it.

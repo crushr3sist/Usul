@@ -25,54 +25,39 @@ Tensor Tensor::operator+(Tensor &other) {
   };
 
   Node n(OP::OP_ADD, false, result, result.heart->children);
-  // // then we feed that node into our compute graph that stores it.
-  // State::ComputeGraph.publish(n);
-
-  // return result;
-}
-
-// tensor + 1.0
-/// correct.
-Tensor Tensor::operator+(double other) {
-
-  // scalar to matrix addition
-  // xtensor does alot of the heavy lifting for us
-  // we can just do this->data + other due to xtensor supporting broadcasting
-  Tensor result(this->data + other, {});
-  // then we make a pointer to our tensor
-  // and then a pointer to the resultant tensor
-
-  shared_ptr<Tensor> this_safe = make_shared<Tensor>(*this);
-  shared_ptr<Tensor> result_ptr = make_shared<Tensor>(result);
-
-  result.backwards = [this_safe, result_ptr]() {
-    this_safe->gradients += result_ptr->gradients;
-  };
-
-  // NOTE - initing like this copies the tensor
-  vector<shared_ptr<Tensor>> t = {this_safe};
-  Node n(OP::OP_ADD, false, result_ptr, t);
-  // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
 
   return result;
 }
 
+// tensor + 1.0
+/// correct.
+Tensor Tensor::operator+(double other) {
+  auto this_ptr = this->heart;
+
+  Tensor result(this->heart->data + other);
+
+  result.heart->backwards = [this_ptr, result]() {
+    this_ptr->gradients += result.heart->gradients;
+  };
+  vector<shared_ptr<Heart>> t = {this_ptr};
+  Node n(OP::OP_ADD, false, result, t);
+  State::ComputeGraph.publish(n);
+  return result;
+}
+
 // 1.0 + tensor
 Tensor operator+(double lhs, Tensor &rhs) {
+  auto rhs_ptr = rhs.heart;
+  Tensor result(lhs + rhs.heart->data);
 
-  Tensor result(lhs + rhs.data, {});
-
-  shared_ptr<Tensor> rhs_ptr = make_shared<Tensor>(rhs);
-  shared_ptr<Tensor> result_ptr = make_shared<Tensor>(result);
-
-  result.backwards = [rhs_ptr, result_ptr]() {
-    rhs_ptr->gradients += result_ptr->gradients;
+  result.heart->backwards = [rhs_ptr, result]() {
+    rhs_ptr->gradients += result.heart->gradients;
   };
 
-  vector<shared_ptr<Tensor>> t = {rhs_ptr};
+  vector<shared_ptr<Heart>> t = {rhs_ptr};
 
-  Node n(OP::OP_ADD, false, result_ptr, t);
+  Node n(OP::OP_ADD, false, result, t);
 
   State::ComputeGraph.publish(n);
   return result;

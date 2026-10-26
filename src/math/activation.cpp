@@ -20,48 +20,85 @@ Tensor Tensor::ReLU() {
   // to relu mode
   // once we've relu'd the current node, we're then going to return a new tensor
   // we should return a new tensor.
+  auto this_ptr = this->heart;
 
-  auto data = xt::maximum(0.0, this->data);
-  Tensor t(data);
+  auto data = xt::maximum(0.0, this->heart->data);
+  Tensor result(data);
   // we still need to add it to the compute graph
-  vector<Tensor *> p = {this};
-  Node n(OP::OP_RELU, false, &t, p);
+  result.heart->children = {this_ptr};
+
+  std::weak_ptr<Heart> result_ptr = result.heart;
+
+  result.heart->backwards = [this_ptr, result_ptr]() {
+    if (auto result_heart = result_ptr.lock()) {
+
+      // so the derivative is i think,
+      // PL/P_result (*) R;
+      // we've got the relu prime
+      auto relu_prime = xt::cast<double>(result_heart->data > 0.0);
+
+      // now we need the upstream gradients.
+      auto upstream_grad = result_heart->gradients;
+      this_ptr->gradients += (upstream_grad * relu_prime);
+    } };
+  Node n(OP::OP_RELU, false, result, result.heart->children);
+
   State::ComputeGraph.publish(n);
 
-  return t;
+  return result;
 }
 
 Tensor Tensor::ReLU_prime() {
-  auto data = xt::cast<double>(this->data > 0.0);
-  Tensor t(data);
+  auto this_ptr = this->heart;
 
-  vector<Tensor *> p = {this};
-  Node n(OP::OP_RELU_P, false, &t, p);
+  auto data = xt::cast<double>(this->heart->data > 0.0);
+  Tensor result(data);
+  result.heart->children = {this_ptr};
+  std::weak_ptr<Heart> result_ptr = result.heart;
+
+  Node n(OP::OP_RELU_P, false, result, result.heart->children);
   State::ComputeGraph.publish(n);
 
-  return t;
+  return result;
 }
 
 Tensor Tensor::Sigmoid() {
-  auto data = 1 / (1 + xt::exp(-this->data));
-  Tensor t(data);
+  auto this_ptr = this->heart;
 
-  vector<Tensor *> p = {this};
-  Node n(OP::OP_SIGMOID, false, &t, p);
+  auto data = 1 / (1 + xt::exp(-this->heart->data));
+  Tensor result(data);
+  result.heart->children = {this_ptr};
+  std::weak_ptr<Heart> result_ptr = result.heart;
+
+  result.heart->backwards = [this_ptr, result_ptr]() {
+    if (auto result_heart = result_ptr.lock()) {
+
+      // so the derivative is i think,
+      // PL/P_result (*) S';
+      auto sigmoid_output = result_heart->data;
+
+      auto upstream_grad = result_heart->gradients;
+      this_ptr->gradients +=
+          upstream_grad * sigmoid_output * (1.0 - sigmoid_output);
+    } };
+
+  Node n(OP::OP_SIGMOID, false, result, result.heart->children);
   State::ComputeGraph.publish(n);
 
-  return t;
+  return result;
 }
 
 Tensor Tensor::Sigmoid_prime() {
-  auto S = Sigmoid();
-  auto data = 1 / (1 + xt::exp(-this->data));
+  auto this_ptr = this->heart;
 
-  auto results = S.data * (1.0 - S.data);
-  Tensor t(results);
-  vector<Tensor *> p = {this};
-  Node n(OP::OP_SIGMOID_P, false, &t, p);
+  auto S = 1 / (1 + xt::exp(-this_ptr->data));
+  auto data = S * (1.0 - S);
+
+  Tensor result(data);
+  result.heart->children = {this_ptr};
+
+  Node n(OP::OP_SIGMOID_P, false, result, result.heart->children);
   State::ComputeGraph.publish(n);
 
-  return t;
+  return result;
 }

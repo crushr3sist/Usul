@@ -1,12 +1,17 @@
 #include "usul.hpp"
 #include <neural/node.hpp>
+#include <utility>
 
-Node::Node(uint8_t op, bool broadcasted, Tensor result_tensor, std::vector<std::shared_ptr<Heart>> parents) {
-  this->op = op;
-  this->tensor_ptr = result_tensor;
-  this->parents = parents;
-  this->broadcasted = broadcasted;
-  this->UID = increment_uid(); //
+Node::Node(
+    uint8_t op,
+    bool broadcasted,
+    Tensor result_tensor,
+    std::vector<std::shared_ptr<Heart>> parents)
+    : UID(increment_uid()),
+      op(op),
+      broadcasted(broadcasted),
+      resultant_tensor(std::move(result_tensor)),
+      parents(std::move(parents)) {
 }
 
 uint8_t Node::increment_uid() {

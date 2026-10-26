@@ -5,27 +5,20 @@
 /// ELEMENT-WISE MULTIPLICATION
 // tensor to tensor
 Tensor Tensor::operator*(Tensor &other) {
-  
-  shared_ptr<Tensor> this_safe = make_shared<Tensor>(*this);
-  shared_ptr<Tensor> other_safe = make_shared<Tensor>(other);
-  vector<shared_ptr<Tensor>> children;
-  children.emplace_back(this_safe);
-  children.emplace_back(other_safe);
+  auto this_ptr = this->heart;
+  auto other_ptr = other.heart;
 
-  Tensor result(this->data * other.data, children);
+  Tensor result(this->heart->data * other.heart->data);
+  result.heart->children = {this_ptr, other_ptr};
 
-  auto *this_ptr = this;
-  auto *other_ptr = &other;
-  auto *result_ptr = &result;
-
-  result.backwards = [this_ptr, other_ptr, result_ptr]() {
-    this_ptr->gradients += result_ptr->gradients * other_ptr->data;
-    other_ptr->gradients += result_ptr->gradients * this_ptr->data;
+  result.heart->backwards = [this_ptr, other_ptr, result]() {
+    this_ptr->gradients += result.heart->gradients * other_ptr->data;
+    other_ptr->gradients += result.heart->gradients * this_ptr->data;
   };
 
   // NOTE - initing like this copies the tensor
-  vector<Tensor *> t = {this_ptr, other_ptr};
-  Node n(OP::OP_HADAMARD, false, result_ptr, t);
+  auto t = {this_ptr, other_ptr};
+  Node n(OP::OP_HADAMARD, false, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;
@@ -33,18 +26,16 @@ Tensor Tensor::operator*(Tensor &other) {
 
 // tensor * 1.0
 Tensor Tensor::operator*(double other) {
+  auto this_ptr = this->heart;
 
-  Tensor result(this->data * other, {});
-  auto *this_ptr = this;
-  auto *result_ptr = &result;
-  auto *other_ptr = &other;
+  Tensor result(this->heart->data * other);
 
-  result.backwards = [this_ptr, result_ptr, other_ptr]() {
-    this_ptr->gradients += result_ptr->gradients * *other_ptr;
+  result.heart->backwards = [this_ptr, result, &other]() {
+    this_ptr->gradients += result.heart->gradients * other;
   };
   // once everything is done, we need to make a node.
-  vector<Tensor *> t = {this_ptr};
-  Node n(OP::OP_HADAMARD, false, result_ptr, t);
+  auto t = {this_ptr};
+  Node n(OP::OP_HADAMARD, false, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;
@@ -52,17 +43,15 @@ Tensor Tensor::operator*(double other) {
 
 // 1.0 * tensor
 Tensor operator*(double lhs, Tensor &rhs) {
+  auto rhs_ptr = rhs.heart;
+  Tensor result(lhs * rhs.heart->data);
 
-  Tensor result(lhs * rhs.data, {});
-  auto *rhs_ptr = &rhs;
-  auto *res_ptr = &result;
-  auto *lhs_ptr = &lhs;
-  result.backwards = [rhs_ptr, res_ptr, lhs_ptr]() {
-    rhs_ptr->gradients += res_ptr->gradients * *lhs_ptr;
+  result.heart->backwards = [rhs_ptr, result, &lhs]() {
+    rhs_ptr->gradients += result.heart->gradients * lhs;
   };
   // once everything is done, we need to make a node.
-  vector<Tensor *> t = {rhs_ptr};
-  Node n(OP::OP_HADAMARD, false, res_ptr, t);
+  auto t = {rhs_ptr};
+  Node n(OP::OP_HADAMARD, false, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;

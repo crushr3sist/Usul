@@ -1,16 +1,52 @@
-# Usul - Neural Network & Reinforcement Learning Library
+# Usul
 
-> _"The beginning of knowledge is the discovery that what you believe is not necessarily true"_
-> — **Paul Muad’Dib, The Collected Sayings of Muad’Dib**
+Usul is a Deep Neural Network and automatic differentiation library written in modern C++23 on top of `xtensor`. I wrote this library for people who want to express their models directly as mathematics in C++, without fighting the massive boilerplate and systems overhead of LibTorch or TensorFlow's C++ APIs.
 
-Usul is a mini neural network & reinforcement learning library, designed in Python, written in C++, created by hand for making your computer thonk a bit.
+The way it works is simple: just write your tensor maths. Your tensors support native mathematical operators while Usul tracks the computation history under the hood for backpropagation.
 
-## Why is it called Usul?
+For example:
 
-In Frank Herbert's Dune, the name given to Paul within the sietch was Usul. It means something close to “the base of the pillar” / “foundation” in the Dune context. The name resonated within me since Usul is the representation of what a neural network is, and how it thinks, teaching a machine to think, to be taught to believe in something, and when confronted, have faith in its beliefs. That is the reason this library is called Usul, it is the base of the pillar into something bigger.
+```cpp
+Tensor A = {1.0, 2.0, 3.0};
+Tensor B = {4.0, 5.0, 6.0};
 
-## what can it do?
+auto Y = A + B;
+std::cout << Y << '\n';
+```
 
-For now it can guess mathematical formulas... I'm confident it can do more. The neural network is constructed via `Compute Graph`, the error is propagated via Analytical Gradient (backpropagation) by calculating slopes, and is implemented as auto gradient.
+Output:
 
-It is designed to acomplish compute graph, automatic differentiation, backpropagation and gradient descent. It wont beat your pytorch, but for simple and lightweight usecase, cant be better than Usul.
+```text
+{ 5., 7., 9. }, shape=(3)
+```
+
+## How does it work?
+
+The core class you interact with is `Tensor`, which acts as a lightweight value-type handle wrapping a `std::shared_ptr<Heart>`.
+
+The actual tensor data and gradient state inside `Heart` are decoupled from the `Tensor` handle itself. Copying or passing a `Tensor` around is cheap, and the backend mixes `std::shared_ptr` (for parent tracking) and `std::weak_ptr` (inside backward pass closures) to propagate gradients efficiently without cyclic memory leaks.
+
+Usul uses operator overloading so matrix mathematics read like standard equations. As an expression evaluates at runtime, each operation automatically registers a node and its local derivative closure to the global compute graph:
+
+```cpp
+Tensor A = {{1.0, 2.0}, {3.0, 4.0}};
+Tensor B = {{4.0, 1.0}, {2.0, 2.0}};
+
+auto add = A + B; // element-wise addition
+auto sub = A - B; // element-wise subtraction
+auto mul = A * B; // Hadamard (element-wise) multiplication
+auto dot = A % B; // matrix multiplication (dot product)
+```
+
+Beyond basic arithmetic, Usul also supports activation functions (`ReLU`, `Sigmoid`) that automatically register their derivatives into the compute graph.
+
+## Getting Started
+
+You will need a C++23 compiler, CMake (3.20+), and `vcpkg` to pull `xtensor` and `xtensor-blas`.
+
+```bash
+export VCPKG_ROOT=/path/to/vcpkg
+cmake --preset vcpkg-default
+cmake --build build
+./build/Usul
+```

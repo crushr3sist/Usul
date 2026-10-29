@@ -8,6 +8,8 @@ Tensor Tensor::operator-(const Tensor &other) const {
   auto other_ptr = other.heart;
 
   Tensor result(this->heart->data - other.heart->data);
+  result.heart->children = {this_ptr, other_ptr};
+
   std::weak_ptr<Heart> result_ptr = result.heart;
 
   result.heart->backwards = [this_ptr, other_ptr, result_ptr]() {
@@ -30,6 +32,7 @@ Tensor Tensor::operator-(double other) const {
   auto this_ptr = this->heart;
 
   Tensor result(this->heart->data - other);
+  result.heart->children = {this_ptr};
   std::weak_ptr<Heart> result_ptr = result.heart;
 
   result.heart->backwards = [this_ptr, result_ptr]() {
@@ -51,6 +54,7 @@ Tensor operator-(double lhs, const Tensor &rhs) {
   auto rhs_ptr = rhs.heart;
 
   Tensor result(lhs - rhs.heart->data);
+  result.heart->children = {rhs_ptr};
   std::weak_ptr<Heart> result_ptr = result.heart;
 
   result.heart->backwards = [rhs_ptr, result_ptr]() {

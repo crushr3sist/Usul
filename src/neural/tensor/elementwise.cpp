@@ -45,7 +45,7 @@ Tensor::operator%(const Tensor &other) const {
 
   // once everything is done, we need to make a node.
   auto t = {this_ptr, other_ptr};
-  Node n(OP::OP_HADAMARD, false, result, t);
+  Node n(OP::OP_DOT, false, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;

@@ -33,7 +33,7 @@ public:
       Tensor result_tensor,
       std::vector<std::shared_ptr<Heart>> parents);
 
-  uint8_t UID;
+  size_t UID;
   uint8_t op;
 
 private:
@@ -41,5 +41,5 @@ private:
   Tensor resultant_tensor;
   std::vector<std::shared_ptr<Heart>> parents;
 
-  static uint8_t increment_uid();
+  static size_t increment_uid();
 };

@@ -14,7 +14,7 @@ Node::Node(
       parents(std::move(parents)) {
 }
 
-uint8_t Node::increment_uid() {
+size_t Node::increment_uid() {
   // check what the number is, and plus 1 to it.
   State::UID += 1;
   return State::UID;

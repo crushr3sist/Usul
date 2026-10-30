@@ -1,5 +1,6 @@
 #pragma once
 // neural
+
 #include <neural/computegraph.hpp>
 #include <neural/node.hpp>
 #include <neural/tensor.hpp>
@@ -8,7 +9,7 @@
 #include <xtensor/io/xio.hpp>
 
 namespace State {
-inline constinit std::atomic<uint8_t> UID{0};
+inline constinit std::atomic<size_t> UID{0};
 inline ComputeGraph ComputeGraph;
 
 } // namespace State

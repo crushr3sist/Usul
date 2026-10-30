@@ -12,7 +12,7 @@ struct Heart {
   // we need to move the data here.
   // these can be turned into a struct which can then be made into a shared pointer mutable std::shared_ptr<xt::xarray<double>> data;
   mutable xt::xarray<double> data;
-  mutable xt::xarray<double> gradients = xt::zeros_like(data);
+  mutable xt::xarray<double> gradients;
   std::function<void()> backwards;
   std::vector<std::shared_ptr<Heart>> children;
 };
@@ -116,6 +116,15 @@ public:
   Tensor ReLU_prime();
   Tensor Sigmoid();
   Tensor Sigmoid_prime();
+
+  // loss functions
+  Tensor MSE();
+  Tensor MSE_Prime();
+
+  Tensor BGD();
+  Tensor BGD_prime();
+  Tensor SGD();
+  Tensor SGD_prime();
 
 private:
   // these can be turned into a struct which can then be made into a shared pointer

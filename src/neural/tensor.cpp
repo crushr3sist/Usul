@@ -12,6 +12,7 @@ Tensor::Tensor(xt::xarray<double> data) {
   // generate the data struct and then install the data into it.
   this->heart = std::make_shared<Heart>();
   this->heart->data = std::move(data);
+  this->heart->gradients = xt::zeros<double>(this->heart->data.shape());
   this->heart->backwards = []() {};
 }
 

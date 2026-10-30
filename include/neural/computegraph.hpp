@@ -7,6 +7,6 @@ class ComputeGraph {
 public:
   void publish(Node node);
   ComputeGraph();
-  std::unordered_map<uint8_t, Node> nodes;
+  std::unordered_map<size_t, Node> nodes;
+  void backwards();
 };
-

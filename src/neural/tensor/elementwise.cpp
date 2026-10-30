@@ -1,6 +1,4 @@
-#include "neural/node.hpp"
 #include "usul.hpp"
-#include <neural/tensor.hpp>
 
 /// ELEMENT-WISE MULTIPLICATION
 // tensor to tensor
@@ -20,7 +18,7 @@ Tensor Tensor::operator*(const Tensor &other) const {
 
   // NOTE - initing like this copies the tensor
   auto t = {this_ptr, other_ptr};
-  Node n(OP::OP_HADAMARD, false, result, t);
+  Node n(OP::OP_HADAMARD, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;
@@ -45,7 +43,7 @@ Tensor::operator%(const Tensor &other) const {
 
   // once everything is done, we need to make a node.
   auto t = {this_ptr, other_ptr};
-  Node n(OP::OP_DOT, false, result, t);
+  Node n(OP::OP_DOT, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;
@@ -64,7 +62,7 @@ Tensor Tensor::operator*(double other) const {
   } };
   // once everything is done, we need to make a node.
   auto t = {this_ptr};
-  Node n(OP::OP_HADAMARD, false, result, t);
+  Node n(OP::OP_HADAMARD, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;
@@ -82,7 +80,7 @@ Tensor operator*(double lhs, const Tensor &rhs) {
   } };
   // once everything is done, we need to make a node.
   auto t = {rhs_ptr};
-  Node n(OP::OP_HADAMARD, false, result, t);
+  Node n(OP::OP_HADAMARD, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
   return result;

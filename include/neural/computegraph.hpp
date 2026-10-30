@@ -8,5 +8,6 @@ public:
   void publish(Node node);
   ComputeGraph();
   std::unordered_map<size_t, Node> nodes;
-  void backwards();
+  void clear();
+  
 };

@@ -1,6 +1,4 @@
-#include "neural/node.hpp"
-#include "usul.hpp"
-#include <neural/tensor.hpp>
+#include <usul.hpp>
 
 // tensor + tensor
 Tensor Tensor::operator-(const Tensor &other) const {
@@ -35,7 +33,7 @@ Tensor Tensor::operator-(const Tensor &other) const {
 
   // NOTE - initing like this copies the tensor
   auto t = {this_ptr, other_ptr};
-  Node n(OP::OP_SUB, false, result, t);
+  Node n(OP::OP_SUB, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
 
@@ -57,7 +55,7 @@ Tensor Tensor::operator-(double other) const {
   // once everything is done, we need to make a node.
   auto t = {this_ptr};
 
-  Node n(OP::OP_SUB, false, result, t);
+  Node n(OP::OP_SUB, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
 
@@ -79,7 +77,7 @@ Tensor operator-(double lhs, const Tensor &rhs) {
 
   // once everything is done, we need to make a node.
   auto t = {rhs_ptr};
-  Node n(OP::OP_SUB, false, result, t);
+  Node n(OP::OP_SUB, result, t);
   // then we feed that node into our compute graph that stores it.
   State::ComputeGraph.publish(n);
 

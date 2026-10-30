@@ -1,6 +1,4 @@
-#include "neural/node.hpp"
 #include "usul.hpp"
-#include <neural/tensor.hpp>
 
 // !NOTE - we're speeding up the functional definition of our arithmatics.
 // and we're also figuring out the smart ptrs
@@ -41,7 +39,7 @@ Tensor Tensor::operator+(const Tensor &other) const {
     }
   };
 
-  Node n(OP::OP_ADD, false, result, result.heart->children);
+  Node n(OP::OP_ADD, result, result.heart->children);
   State::ComputeGraph.publish(n);
 
   return result;
@@ -62,7 +60,7 @@ Tensor Tensor::operator+(double other) const {
     }
   };
   vector<shared_ptr<Heart>> t = {this_ptr};
-  Node n(OP::OP_ADD, false, result, t);
+  Node n(OP::OP_ADD, result, t);
   State::ComputeGraph.publish(n);
   return result;
 }
@@ -80,7 +78,7 @@ Tensor operator+(double lhs, const Tensor &rhs) {
 
   vector<shared_ptr<Heart>> t = {rhs_ptr};
 
-  Node n(OP::OP_ADD, false, result, t);
+  Node n(OP::OP_ADD, result, t);
 
   State::ComputeGraph.publish(n);
   return result;

@@ -118,13 +118,18 @@ public:
   Tensor Sigmoid_prime();
 
   // loss functions
-  Tensor MSE();
+  Tensor MSE(const Tensor &Y_true);
   Tensor MSE_Prime();
 
   Tensor BGD();
   Tensor BGD_prime();
   Tensor SGD();
   Tensor SGD_prime();
+
+  // backwards
+  void backwards();
+  void step(double LR);
+  Tensor grad();
 
 private:
   // these can be turned into a struct which can then be made into a shared pointer

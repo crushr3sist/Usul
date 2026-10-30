@@ -20,6 +20,9 @@ enum OP : uint8_t {
   OP_SIGMOID = 12,
   OP_SIGMOID_P = 13,
 
+  // loss
+  OP_MEAN = 20
+
 };
 class Node {
   // this is what is going to wrap our tensor.
@@ -29,15 +32,12 @@ class Node {
 public:
   Node(
       uint8_t op,
-      bool broadcasted,
       Tensor result_tensor,
       std::vector<std::shared_ptr<Heart>> parents);
 
   size_t UID;
   uint8_t op;
 
-private:
-  bool broadcasted;
   Tensor resultant_tensor;
   std::vector<std::shared_ptr<Heart>> parents;
 

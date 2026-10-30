@@ -1,11 +1,12 @@
 // NOTE - once the errors go away, the library is finished :)
 
+#include "neural/computegraph.hpp"
 #include <usul.hpp>
 using namespace std;
-#define LR 0.1
 
 int main() {
-
+  double LR = 0.1;
+  int EPOCH = 1000;
   // lets write the forward pass
 
   Tensor X = {
@@ -33,7 +34,7 @@ int main() {
   auto B2 = generate_random_matrix({1, 1}, -1.0, 1.0);
 
   // this is the training loop
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < EPOCH; i++) {
     // so lets do one forward pass
     // first layer
     auto Z1 = X % W1 + B1;
@@ -49,13 +50,14 @@ int main() {
 
     auto loss = (S - Y_true) * (S - Y_true);
     loss = loss.mean();
-    
-    loss.backward();
 
-    // Gradients are now populated.
-    W1 = W1 - LR * W1.grad();
-    B1 = B1 - LR * B1.grad();
-    W2 = W2 - LR * W2.grad();
-    B2 = B2 - LR * B2.grad();
+    cout << loss << "\n";
+
+    loss.backwards();
+
+    W1.step(LR);
+    B1.step(LR);
+    W2.step(LR);
+    B2.step(LR);
   }
 }

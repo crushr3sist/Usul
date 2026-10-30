@@ -1,13 +1,4 @@
-#include "neural/node.hpp"
 #include "usul.hpp"
-#include <neural/tensor.hpp>
-#include <math/activation.hpp>
-#include <xtensor/core/xmath.hpp>
-#include <xtensor/io/xio.hpp>
-#include <xtensor/containers/xarray.hpp>
-#include <xtensor/views/xview.hpp>
-#include <xtensor/generators/xrandom.hpp>
-#include <xtensor-blas/xlinalg.hpp>
 
 Tensor generate_random_matrix(const std::vector<int> &shape, double low, double high) {
   auto random_expression = xt::random::rand<double>(shape, low, high);
@@ -41,7 +32,7 @@ Tensor Tensor::ReLU() {
       auto upstream_grad = result_heart->gradients;
       this_ptr->gradients += (upstream_grad * relu_prime);
     } };
-  Node n(OP::OP_RELU, false, result, result.heart->children);
+  Node n(OP::OP_RELU, result, result.heart->children);
 
   State::ComputeGraph.publish(n);
 
@@ -56,7 +47,7 @@ Tensor Tensor::ReLU_prime() {
   result.heart->children = {this_ptr};
   std::weak_ptr<Heart> result_ptr = result.heart;
 
-  Node n(OP::OP_RELU_P, false, result, result.heart->children);
+  Node n(OP::OP_RELU_P, result, result.heart->children);
   State::ComputeGraph.publish(n);
 
   return result;
@@ -82,7 +73,7 @@ Tensor Tensor::Sigmoid() {
           upstream_grad * sigmoid_output * (1.0 - sigmoid_output);
     } };
 
-  Node n(OP::OP_SIGMOID, false, result, result.heart->children);
+  Node n(OP::OP_SIGMOID, result, result.heart->children);
   State::ComputeGraph.publish(n);
 
   return result;
@@ -97,7 +88,7 @@ Tensor Tensor::Sigmoid_prime() {
   Tensor result(data);
   result.heart->children = {this_ptr};
 
-  Node n(OP::OP_SIGMOID_P, false, result, result.heart->children);
+  Node n(OP::OP_SIGMOID_P, result, result.heart->children);
   State::ComputeGraph.publish(n);
 
   return result;

@@ -5,6 +5,7 @@
 #include <xtensor/views/xview.hpp>
 #include <xtensor/generators/xrandom.hpp>
 #include <xtensor-blas/xlinalg.hpp>
+#include "usul.hpp"
 
 Tensor MSE();
 Tensor MSE_Prime();

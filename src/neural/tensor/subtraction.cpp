@@ -14,9 +14,24 @@ Tensor Tensor::operator-(const Tensor &other) const {
 
   result.heart->backwards = [this_ptr, other_ptr, result_ptr]() {
     if (auto result_heart = result_ptr.lock()) {
-      this_ptr->gradients += result_heart->gradients;
-      other_ptr->gradients -= result_heart->gradients;
-  } };
+      // here we need to check if either tensor was broadcasted
+
+      auto this_local = result_heart->gradients;
+      auto other_local = result_heart->gradients;
+
+      if (other_ptr->data.dimension() > 0 && other_ptr->data.shape(0) == 1 && result_heart->data.shape(0) > 1) {
+
+        other_local = xt::sum(result_heart->gradients, {0});
+      }
+      if (this_ptr->data.dimension() > 0 && this_ptr->data.shape(0) == 1 && result_heart->data.shape(0) > 1) {
+
+        this_local = xt::sum(result_heart->gradients, {0});
+      }
+
+      this_ptr->gradients += this_local;
+      other_ptr->gradients -= other_local;
+    }
+  };
 
   // NOTE - initing like this copies the tensor
   auto t = {this_ptr, other_ptr};

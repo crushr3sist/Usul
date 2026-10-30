@@ -2,6 +2,7 @@
 
 #include <usul.hpp>
 using namespace std;
+#define LR 0.1
 
 int main() {
 
@@ -48,7 +49,7 @@ int main() {
 
     auto loss = (S - Y_true) * (S - Y_true);
     loss = loss.mean();
-
+    
     loss.backward();
 
     // Gradients are now populated.
